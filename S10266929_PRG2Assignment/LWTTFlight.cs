@@ -22,7 +22,7 @@ namespace FinalAssignment
         //Constructors
         public LWTTFlight() : base() { }
         public LWTTFlight(string f, string r, string d, DateTime et)
-            : base(f, r, d, et)
+            : base(f, r, d, et) { }
 
         //Methods
         public override double CalculateFees()
