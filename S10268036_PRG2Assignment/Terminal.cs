@@ -1,4 +1,7 @@
-﻿namespace S10268036_PRG2Assignment
+﻿// Student Number	: S10268036
+// Student Name	: Abin Aneesh
+// Partner Name	: Louis Mosses
+namespace S10268036_PRG2Assignment
 {
     public class Terminal
     {
