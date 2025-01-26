@@ -34,7 +34,19 @@ namespace FinalAssignment
         }
 
         //Methods
-        public abstract double CalculateFees();
+        public virtual double CalculateFees()
+        {
+            double fee = 300;
+            if (Destination == "Singapore (SIN)")
+            {
+                fee += 500;
+            }
+            else if (Destination != "Singapore (SIN)" && Origin == "Singapore (SIN)")
+            {
+                fee += 800;
+            }
+            return fee;
+        }
 
         public override string ToString()
         {

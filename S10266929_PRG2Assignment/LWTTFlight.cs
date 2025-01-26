@@ -29,16 +29,7 @@ namespace FinalAssignment
         //Methods
         public override double CalculateFees()
         {
-            double fee = 300 + 500;
-            if (Destination == "Singapore (SIN)")
-            {
-                fee += 500;
-            }
-            else if (Destination != "Singapore (SIN)" && Origin == "Singapore (SIN)")
-            {
-                fee += 800;
-            }
-            return fee;
+            base.CalculateFees() + 500;
         }
         public override string ToString()
         {
