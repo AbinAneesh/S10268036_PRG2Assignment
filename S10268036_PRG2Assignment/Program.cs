@@ -1,69 +1,102 @@
-﻿using S10268036_PRG2Assignment.S10268036_PRG2Assignment;
-using S10268036_PRG2Assignment;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
-class Program
+namespace S10268036_PRG2Assignment
 {
-    static void Main()
+    class Program
     {
-        Terminal terminal = new Terminal();
-
-        terminal.AddAirline(new Airline("SQ", "Singapore Airlines"));
-        terminal.AddAirline(new Airline("MH", "Malaysia Airlines"));
-
-        terminal.AddBoardingGate(new BoardingGate("A1"));
-        terminal.AddBoardingGate(new BoardingGate("B2", "CFFT"));
-
-        Console.WriteLine("Welcome to Terminal 5 Flight Information System");
-
-        while (true)
+        static void Main(string[] args)
         {
-            Console.WriteLine("\nMenu:");
-            Console.WriteLine("1. Display Boarding Gates");
-            Console.WriteLine("2. Assign Flight to Gate");
-            Console.WriteLine("3. Display Airlines");
-            Console.WriteLine("4. Exit");
-            Console.Write("Enter choice: ");
+            // Dictionaries to store airlines and boarding gates
+            Dictionary<string, Airline> airlines = new Dictionary<string, Airline>();
+            Dictionary<string, BoardingGate> boardingGates = new Dictionary<string, BoardingGate>();
 
-            string choice = Console.ReadLine();
-            switch (choice)
+            // Load data from files
+            LoadAirlines("airlines.csv", airlines);
+            LoadBoardingGates("boardinggates.csv", boardingGates);
+
+            // Display loaded data
+            Console.WriteLine("\nLoaded Airlines:");
+            foreach (var airline in airlines.Values)
             {
-                case "1":
-                    terminal.DisplayAllGates();
-                    break;
-                case "2":
-                    Console.Write("Enter Flight Number: ");
-                    string flightNumber = Console.ReadLine();
-                    Console.Write("Enter Boarding Gate: ");
-                    string gateName = Console.ReadLine();
-                    if (terminal.AssignFlightToGate(flightNumber, gateName))
+                Console.WriteLine(airline.ToString());
+            }
+
+            Console.WriteLine("\nLoaded Boarding Gates:");
+            foreach (var gate in boardingGates.Values)
+            {
+                Console.WriteLine(gate.ToString());
+            }
+
+            Console.WriteLine("\nData loading complete. Press any key to exit.");
+            Console.ReadKey();
+        }
+
+        static void LoadAirlines(string filePath, Dictionary<string, Airline> airlines)
+        {
+            try
+            {
+                using (StreamReader sr = new StreamReader(filePath))
+                {
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
                     {
-                        Console.WriteLine("Flight assigned successfully.");
+                        string[] parts = line.Split(',');
+
+                        if (parts.Length >= 2)
+                        {
+                            string code = parts[0].Trim();
+                            string name = parts[1].Trim();
+
+                            if (!airlines.ContainsKey(code))
+                            {
+                                Airline airline = new Airline(code, name);
+                                airlines.Add(code, airline);
+                            }
+                        }
                     }
-                    else
-                    {
-                        Console.WriteLine("Failed to assign flight. Gate may be occupied.");
-                    }
-                    break;
-                case "3":
-                    DisplayAirlines(terminal);
-                    break;
-                case "4":
-                    return;
-                default:
-                    Console.WriteLine("Invalid choice. Please try again.");
-                    break;
+                    Console.WriteLine("Airlines loaded successfully.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading airlines file: {ex.Message}");
             }
         }
-    }
 
-    static void DisplayAirlines(Terminal terminal)
-    {
-        Console.WriteLine("\nList of Airlines:");
-        foreach (var airline in terminal.Airlines.Values)
+        static void LoadBoardingGates(string filePath, Dictionary<string, BoardingGate> boardingGates)
         {
-            Console.WriteLine($"Code: {airline.Code}, Name: {airline.Name}");
+            try
+            {
+                using (StreamReader sr = new StreamReader(filePath))
+                {
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        string[] parts = line.Split(',');
+
+                        if (parts.Length >= 4)
+                        {
+                            string gateName = parts[0].Trim();
+                            bool supportsCFFT = parts[1].Trim().ToLower() == "true";
+                            bool supportsDDJB = parts[2].Trim().ToLower() == "true";
+                            bool supportsLWTT = parts[3].Trim().ToLower() == "true";
+
+                            if (!boardingGates.ContainsKey(gateName))
+                            {
+                                BoardingGate gate = new BoardingGate(gateName, supportsCFFT, supportsDDJB, supportsLWTT);
+                                boardingGates.Add(gateName, gate);
+                            }
+                        }
+                    }
+                    Console.WriteLine("Boarding gates loaded successfully.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading boarding gates file: {ex.Message}");
+            }
         }
     }
 }
