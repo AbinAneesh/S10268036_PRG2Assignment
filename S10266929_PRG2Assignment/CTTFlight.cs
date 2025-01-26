@@ -17,19 +17,16 @@ namespace FinalAssignment
     class CTTFlight : Flight
     {
         //Properties
-        public double RequestFee { get; set; }
+        public double RequestFee { get; } = 150;
 
         //Constructors
-        public CTTFlight() { }
-        public CTTFlight(string f, string r, string d, DateTime et, string s, double rf) : base(f, r, d, et, s)
-        {
-            RequestFee = rf;
-        }
-
+        public CTTFlight() : base() { }
+        public CTTFlight(string f, string r, string d, DateTime et)
+            : base(f, r, d, et) { }
         //Methods
         public override double CalculateFees()
         {
-            base.CalculateFees() + 150;
+            return base.CalculateFees() + RequestFee;
         }
 
         public override string ToString()

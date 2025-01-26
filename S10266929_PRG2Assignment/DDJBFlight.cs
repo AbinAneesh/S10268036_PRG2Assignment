@@ -14,24 +14,21 @@ using System.Threading.Tasks;
 
 namespace FinalAssignment
 {
-    class DDJBFlight: Flight
+    class DDJBFlight : Flight
     {
         //Properties
-        public double RequestFee { get; set; }
+        public double RequestFee { get; } = 300;
 
         //Constructors
-        public DDJBFlight() { }
-        public DDJBFlight(string f, string r, string d, DateTime et, string s, double rf) : base(f, r, d, et, s)
-        {
-            RequestFee = rf;
-        }
+        public DDJBFlight() : base() { }
+        public DDJBFlight(string f, string r, string d, DateTime et)
+            : base(f, r, d, et) { }
 
         //Methods
         public override double CalculateFees()
         {
-            base.CalculateFees() + 300;
+            return base.CalculateFees() + RequestFee;
         }
-
         public override string ToString()
         {
             return base.ToString() + "Request Fee: " + RequestFee;

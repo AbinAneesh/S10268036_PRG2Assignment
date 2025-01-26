@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace S10268036_PRG2Assignment
+namespace S10286036_PRG2Assignment
 {
     public class Airline
     {

@@ -14,22 +14,20 @@ using System.Threading.Tasks;
 
 namespace FinalAssignment
 {
-    class LWTTFlight: Flight
+    class LWTTFlight : Flight
     {
         //Properties
-        public double RequestFee { get; set; }
+        public double RequestFee { get; } = 500;
 
         //Constructors
-        public LWTTFlight() { }
-        public LWTTFlight(string f, string r, string d, DateTime et, string s, double rf) : base(f, r, d, et, s)
-        {
-            RequestFee = rf;
-        }
+        public LWTTFlight() : base() { }
+        public LWTTFlight(string f, string r, string d, DateTime et)
+            : base(f, r, d, et)
 
         //Methods
         public override double CalculateFees()
         {
-            base.CalculateFees() + 500;
+            return base.CalculateFees() + RequestFee;
         }
         public override string ToString()
         {

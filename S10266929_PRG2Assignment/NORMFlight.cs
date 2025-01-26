@@ -13,17 +13,19 @@ using System.Threading.Tasks;
 
 namespace FinalAssignment
 {
-    class NORMFlight: Flight
+    class NORMFlight : Flight
     {
         //Properties
-
+        public NORMFlight() : base() { }
+        public NORMFlight(string f, string r, string d, DateTime et)
+            : base(f, r, d, et) { }
         //Constructors
 
 
         //Methods
         public override double CalculateFees()
         {
-            base.CalculateFees() + 500;
+            return base.CalculateFees();
         }
 
         public override string ToString()
